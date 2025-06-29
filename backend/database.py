@@ -83,7 +83,13 @@ def create_database():
         print(f"🚨 Error creando la base de datos: {e}")
         exit(1)
 
+def init_models():
+    from backend.models import question, response, similarity, summary  # Importá todos los modelos que definen tablas
+    Base.metadata.create_all(bind=engine)
+
+
 
 # Esperar a que PostgreSQL esté listo antes de crear la base de datos
 wait_for_db()
 create_database()
+init_models()

@@ -28,3 +28,10 @@ def create_summary(summary: SummaryCreate, db: Session = Depends(get_db)):
 @router.get("/", response_model=List[SummaryCreate])
 def get_summaries(db: Session = Depends(get_db)):
     return db.query(Summary).all()
+
+@router.get("/by-question/{question_id}", response_model=List[SummaryCreate])
+def get_summaries_by_question(question_id: int, db: Session = Depends(get_db)):
+    summaries = db.query(Summary).filter(Summary.question_id == question_id).all()
+    if not summaries:
+        raise HTTPException(status_code=404, detail="No summaries found for this question_id")
+    return summaries

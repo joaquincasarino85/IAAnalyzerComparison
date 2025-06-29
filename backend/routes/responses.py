@@ -29,3 +29,10 @@ def create_response(response: ResponseCreate, db: Session = Depends(get_db)):
 @router.get("/", response_model=List[ResponseCreate])
 def get_responses(db: Session = Depends(get_db)):
     return db.query(Response).all()
+
+@router.get("/by-question/{question_id}", response_model=List[ResponseCreate])
+def get_responses_by_question(question_id: int, db: Session = Depends(get_db)):
+    responses = db.query(Response).filter(Response.question_id == question_id).all()
+    if not responses:
+        raise HTTPException(status_code=404, detail="No responses found for this question_id")
+    return responses

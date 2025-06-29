@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from backend.database import engine, Base
-from backend.routes import questions, responses, summaries
+from backend.routes import questions, responses, summaries, similarities
 from fastapi.middleware.cors import CORSMiddleware
 import sys
 import os
@@ -23,3 +23,4 @@ app.add_middleware(
 app.include_router(questions.router, prefix="/questions", tags=["Questions"])
 app.include_router(responses.router, prefix="/responses", tags=["Responses"])
 app.include_router(summaries.router, prefix="/summaries", tags=["Summaries"])
+app.include_router(similarities.router, prefix="/similarities", tags=["Similarities"])

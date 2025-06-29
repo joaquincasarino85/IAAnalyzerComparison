@@ -8,17 +8,29 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>IAAnalyzerComparison</h1>
-        </div>
-        <div class="chat-box" id="responseContainer"></div>
-        <div class="input-container">
-            <textarea id="questionInput" placeholder="Enter your market trend question..."></textarea>
-            <button class="ask-btn" onclick="askQuestion()">Ask</button>
-        </div>
-        <h2>History</h2>
-        <ul id="historyList"></ul>
+    <div class="container">
+        <header class="chat-header">
+            <h1>📊 IAAnalyzerComparison</h1>
+        </header>
+
+        <main class="chat-content">
+            <div class="chat-box" id="responseContainer">
+                <p class="placeholder">Ask a question to get started...</p>
+            </div>
+
+            <div class="input-container">
+                <textarea id="questionInput" placeholder="Enter your market trend question..."></textarea>
+                <button class="ask-btn" onclick="askQuestion()">🔎 Ask</button>
+            </div>
+
+            <div id="loader" class="loader-container">
+                <div class="loader"></div>
+                <p>Processing your request...</p>
+            </div>
+
+            <h2>📜 History</h2>
+            <ul id="historyList" class="history-list"></ul>
+        </main>
     </div>
 </body>
 </html>
