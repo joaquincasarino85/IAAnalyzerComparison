@@ -8,7 +8,8 @@ class IAManager:
     def __init__(self):
         self.ias = {
             "ChatGPT": IAFactory.create_ia("ChatGPT", os.getenv("OPENAI_API_KEY")),
-            "Bard": IAFactory.create_ia("Bard", os.getenv("GEMINI_API_KEY"))
+            "Bard": IAFactory.create_ia("Bard", os.getenv("GEMINI_API_KEY")),
+            "Perplexity": IAFactory.create_ia("Perplexity", os.getenv("PERPLEXITY_API_KEY"))
         }
         self.responses = {}
 
