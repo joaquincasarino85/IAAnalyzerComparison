@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from backend.database import engine, Base
-from backend.routes import questions, responses, summaries, similarities
+from backend.routes import questions, responses, summaries, similarities, sentiments, contradictions, named_entities, semantic_similarity
 from fastapi.middleware.cors import CORSMiddleware
 import sys
 import os
@@ -24,3 +24,8 @@ app.include_router(questions.router, prefix="/questions", tags=["Questions"])
 app.include_router(responses.router, prefix="/responses", tags=["Responses"])
 app.include_router(summaries.router, prefix="/summaries", tags=["Summaries"])
 app.include_router(similarities.router, prefix="/similarities", tags=["Similarities"])
+
+app.include_router(sentiments.router, prefix="/sentiments", tags=["sentiments"])
+app.include_router(contradictions.router, prefix="/contradictions", tags=["contradictions"])
+app.include_router(named_entities.router, prefix="/named-entities", tags=["named_entities"])
+app.include_router(semantic_similarity.router, prefix="/semantic-similarity", tags=["semantic_similarity"])

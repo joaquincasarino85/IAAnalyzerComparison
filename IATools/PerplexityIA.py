@@ -7,7 +7,7 @@ class PerplexityIA:
         self.api_key = api_key
         self.url = "https://api.perplexity.ai/chat/completions"
 
-    def get_response(self, prompt):
+    def get_response(self, prompt, language: str = "en"):
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"

@@ -14,6 +14,8 @@ from backend.models.sentiment import Sentiment as Sentiment
 from backend.database import get_db
 from backend.schemas.question import QuestionRequest
 from backend.services.NLPAnalyzer import NLPAnalyzer
+from backend.utils.lang import detect_language
+
 import numpy as np
 import sys
 
@@ -35,15 +37,18 @@ def convert_np(obj):
 async def ask_question(question_request: QuestionRequest, db: Session = Depends(get_db)):
     print('aca esta')
 
+    lang = detect_language(question_request.text)
+
     # 1️⃣ Guardar la pregunta en la base de datos
-    new_question = QuestionModel(text=question_request.text)
+    new_question = QuestionModel(text=question_request.text, language=lang)
+    
     db.add(new_question)
     db.commit()
     db.refresh(new_question)
 
     # 2️⃣ Llamar al IA Manager
     manager = IAManager()
-    manager.query_ias(question_request.text)
+    manager.query_ias(question_request.text, lang)
     responses = manager.get_responses()
 
     # 3️⃣ Guardar las respuestas en la base de datos
@@ -137,6 +142,46 @@ async def ask_question(question_request: QuestionRequest, db: Session = Depends(
         "sentiments": sentiments,
         "summary": summary_text
     })
+
+@router.get("/{question_id}")
+async def get_question_by_id(question_id: int, db: Session = Depends(get_db)):
+    question = db.query(QuestionModel).filter(QuestionModel.id == question_id).first()
+    if not question:
+        return {"detail": "Question not found"}
+
+    responses = db.query(Answer).filter(Answer.question_id == question_id).all()
+    summary = db.query(Summary).filter(Summary.question_id == question_id).first()
+    similarities = db.query(Similarity).filter(Similarity.question_id == question_id).all()
+    semantic_similarities = db.query(SemanticSimilarity).filter(SemanticSimilarity.question_id == question_id).all()
+    contradictions = db.query(Contradiction).filter(Contradiction.question_id == question_id).all()
+    named_entities = db.query(NamedEntity).filter(NamedEntity.question_id == question_id).all()
+    sentiments = db.query(Sentiment).filter(Sentiment.question_id == question_id).all()
+
+    return {
+        "id": question.id,
+        "text": question.text,
+        "summary": summary.summary_text if summary else None,
+        "similarity": [
+            {"ai1": s.ai1, "ai2": s.ai2, "score": s.similarity_score} for s in similarities
+        ],
+        "semantic_similarity": [
+            {"ai1": s.ai1, "ai2": s.ai2, "score": s.similarity_score} for s in semantic_similarities
+        ],
+        "contradictions": [
+            {"ai1": c.ai1, "ai2": c.ai2, "label": c.label, "score": c.score} for c in contradictions
+        ],
+        "named_entities": {
+            e.ai_name: [{"entity": e.entity, "label": e.label} for e in named_entities if e.ai_name == e.ai_name]
+            for e in named_entities
+        },
+        "sentiments": {
+            s.ai_name: [{"label": s.label, "score": s.score} for s in sentiments if s.ai_name == s.ai_name]
+            for s in sentiments
+        },
+        "responses": [
+            {"iaName": r.ai_name, "text": r.response_text} for r in responses
+        ],
+    }
 
 
 @router.get("/")

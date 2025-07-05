@@ -7,7 +7,9 @@ class QuestionRequest(BaseModel):
 class QuestionResponse(BaseModel):
     id: int
     text: str
+    language: str | None
     created_at: datetime
 
     class Config:
         from_attributes = True
+

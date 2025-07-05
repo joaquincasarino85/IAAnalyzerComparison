@@ -47,28 +47,28 @@ services:
       - "8000:8000"
     env_file:
       - .env
-
-  ia_frontend:
-    build: ./frontend
-    container_name: ia_frontend
-    restart: always
-    depends_on:
-      - ia_backend
+  react_frontend:
+    build:
+      context: ./react-frontend
+    container_name: react_frontend
     ports:
-      - "80:80"
+      - "5173:5173"
     volumes:
-      - ./frontend:/usr/share/nginx/html
+      - ./react-frontend/src:/app/src
+    restart: always
+    command: ["npm", "run", "dev"]
+  # ia_frontend:
+  #   build: ./frontend
+  #   container_name: ia_frontend
+  #   restart: always
+  #   depends_on:
+  #     - ia_backend
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./frontend:/usr/share/nginx/html
+
+  
 
 volumes:
   pg_data:
-
-
-
-# frontend:
-#     build: ./frontend
-#     container_name: ia_frontend
-#     restart: always
-#     depends_on:
-#       - backend
-#     ports:
-#       - "80:80"
