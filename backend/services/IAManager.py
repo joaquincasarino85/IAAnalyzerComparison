@@ -6,12 +6,29 @@ load_dotenv()
 
 class IAManager:
     def __init__(self):
-        self.ias = {
-            "ChatGPT": IAFactory.create_ia("ChatGPT", os.getenv("OPENAI_API_KEY")),
-            # "Bard": IAFactory.create_ia("Bard", os.getenv("GEMINI_API_KEY")),
-            "Perplexity": IAFactory.create_ia("Perplexity", os.getenv("PERPLEXITY_API_KEY"))
-        }
+        self.ias = {}
         self.responses = {}
+        
+        # Crear instancias de IA solo si tienen API keys válidas
+        ai_configs = [
+            ("ChatGPT", "OPENAI_API_KEY"),
+            #("Claude", "ANTHROPIC_API_KEY"),  # Comentado por ahora
+            ("Gemini", "GEMINI_API_KEY"),
+            ("Mistral", "MISTRAL_API_KEY"),
+            ("Cohere", "COHERE_API_KEY"),
+            ("Perplexity", "PERPLEXITY_API_KEY")
+        ]
+        
+        for ai_name, env_key in ai_configs:
+            api_key = os.getenv(env_key)
+            if api_key and api_key.strip():  # Verificar que la API key existe y no está vacía
+                try:
+                    self.ias[ai_name] = IAFactory.create_ia(ai_name, api_key)
+                    print(f"✅ {ai_name} inicializado correctamente")
+                except Exception as e:
+                    print(f"❌ Error al inicializar {ai_name}: {str(e)}")
+            else:
+                print(f"⚠️ {ai_name} no configurado (API key faltante)")
 
     def query_ias(self, question: str, lang: str = "en"):
         self.responses = {}

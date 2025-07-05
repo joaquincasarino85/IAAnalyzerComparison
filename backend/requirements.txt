@@ -9,3 +9,9 @@ google-generativeai
 sentence-transformers
 torch
 langdetect
+anthropic
+cohere
+requests
+nltk
+numpy
+transformers

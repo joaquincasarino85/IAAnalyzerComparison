@@ -1,5 +1,3 @@
-# IATools/PerplexityIA.py
-
 import requests
 
 class PerplexityIA:
@@ -7,17 +5,39 @@ class PerplexityIA:
         self.api_key = api_key
         self.url = "https://api.perplexity.ai/chat/completions"
 
-    def get_response(self, prompt, language: str = "en"):
+    def get_response(self, prompt: str, language: str = "en") -> str:
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
         }
 
+        # Mapa de idiomas
+        lang_instruction = {
+            "es": "en español",
+            "en": "in English",
+            "fr": "en français",
+            "de": "auf Deutsch",
+            "it": "in italiano"
+        }.get(language, "in English")
+
+        style_instruction = (
+            "Responde de forma breve, directa, estructurada y clara. "
+            "No uses introducciones ni explicaciones innecesarias. Usa viñetas si aplica."
+        )
+
+        # Construir mensaje con instrucciones explícitas
+        full_prompt = (
+            f"Responde {lang_instruction} la siguiente consulta de forma clara, concisa y estructurada. "
+            f"Evita introducciones, contexto innecesario o reflexiones. "
+            f"Limita la respuesta a 5 viñetas con los puntos clave. "
+            f"No incluyas notas finales ni advertencias. Solo hechos relevantes.\n\n"
+            f"{prompt}"
+        )
+
         payload = {
             "model": "r1-1776",
             "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": full_prompt}
             ]
         }
 
@@ -29,5 +49,10 @@ class PerplexityIA:
             return f"[Perplexity ERROR {response.status_code}] {response.json().get('error', {}).get('message', 'Unknown error')}"
 
         response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
+        result = response.json()["choices"][0]["message"]["content"]
 
+        # Opcional: eliminar secciones como <think> si aún aparecen
+        if "<think>" in result:
+            result = result.split("</think>")[-1].strip()
+
+        return result

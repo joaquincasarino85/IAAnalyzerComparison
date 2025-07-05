@@ -31,6 +31,22 @@ const AnalysisPanel = ({ question }: Props) => {
         <p>{text}</p>
       </div>
 
+      {/* Responses */}
+      <div className="p-4 border rounded bg-gray-50">
+        <h3 className="font-semibold">Responses</h3>
+        <ul className="space-y-2">
+          {responses && responses.length > 0 ? (
+            responses.map((r: any, index: number) => (
+              <li key={index} className="p-2 bg-white rounded shadow">
+                <strong>{r.iaName}:</strong> {r.text}
+              </li>
+            ))
+          ) : (
+            <li className="text-gray-400 italic">No responses available.</li>
+          )}
+        </ul>
+      </div>
+
       {/* Summary */}
       <div className="p-4 border rounded bg-gray-50">
         <h3 className="font-semibold">Summary</h3>
@@ -115,22 +131,6 @@ const AnalysisPanel = ({ question }: Props) => {
             ))
           ) : (
             <li className="text-gray-400 italic">No named entities found.</li>
-          )}
-        </ul>
-      </div>
-
-      {/* Responses */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Responses</h3>
-        <ul className="space-y-2">
-          {responses && responses.length > 0 ? (
-            responses.map((r: any, index: number) => (
-              <li key={index} className="p-2 bg-white rounded shadow">
-                <strong>{r.iaName}:</strong> {r.text}
-              </li>
-            ))
-          ) : (
-            <li className="text-gray-400 italic">No responses available.</li>
           )}
         </ul>
       </div>
