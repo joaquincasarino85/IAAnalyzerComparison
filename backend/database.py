@@ -1,24 +1,10 @@
 import os
-import time
-import psycopg2
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Obtener variables de entorno
-DB_USER = os.getenv("POSTGRES_USER")
-DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-DB_NAME = os.getenv("POSTGRES_DB")
-DB_HOST = os.getenv("POSTGRES_HOST")  # Nombre del servicio en docker-compose
-DB_PORT = os.getenv("POSTGRES_PORT", "5432")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-
-
-# URL de conexión a PostgreSQL para SQLAlchemy
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-print(DATABASE_URL)
-# Crear el motor de SQLAlchemy
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -29,7 +15,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
 
 def wait_for_db():
     """Espera a que PostgreSQL esté disponible antes de conectarse."""
