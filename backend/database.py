@@ -75,6 +75,6 @@ def init_models():
 
 
 # Esperar a que PostgreSQL esté listo antes de crear la base de datos
-wait_for_db()
-create_database()
-init_models()
+#wait_for_db()
+#create_database()
+#init_models()
