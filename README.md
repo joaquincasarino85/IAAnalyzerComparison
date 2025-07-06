@@ -115,73 +115,73 @@ This will start:
 
 ---
 
-## 📦 Endpoints de la API
+## 📦 API Endpoints
 
-### Endpoints Básicos
-- `POST /questions/` — Enviar una nueva pregunta
-- `GET /questions/` — Obtener historial de preguntas
-- `GET /responses/by-question/{id}` — Obtener respuestas de una pregunta
-- `GET /summaries/by-question/{id}` — Obtener resumen
-- `GET /similarities/by-question/{id}` — Obtener similitud textual
-- `GET /semantic-similarities/by-question/{id}` — Obtener similitud semántica
-- `GET /contradictions/by-question/{id}` — Detección de contradicciones NLI
-- `GET /sentiments/by-question/{id}` — Análisis de sentimiento
-- `GET /named-entities/by-question/{id}` — Entidades nombradas
+### Basic Endpoints
+- `POST /questions/` — Submit a new question
+- `GET /questions/` — Get question history
+- `GET /responses/by-question/{id}` — Get responses for a question
+- `GET /summaries/by-question/{id}` — Get summary
+- `GET /similarities/by-question/{id}` — Get textual similarity
+- `GET /semantic-similarities/by-question/{id}` — Get semantic similarity
+- `GET /contradictions/by-question/{id}` — NLI contradiction detection
+- `GET /sentiments/by-question/{id}` — Sentiment analysis
+- `GET /named-entities/by-question/{id}` — Named entities
 
-### 🚀 Endpoints de Análisis Avanzado
-- `POST /advanced-analysis/analyze-responses` — Análisis completo de respuestas
-- `POST /advanced-analysis/compare-intelligently` — Comparación inteligente
-- `POST /advanced-analysis/quality-assessment` — Evaluación de calidad
-- `POST /advanced-analysis/consensus-analysis` — Análisis de consenso
-- `POST /advanced-analysis/divergence-analysis` — Análisis de divergencias
-- `GET /advanced-analysis/recommendations/{question_id}` — Recomendaciones
-- `GET /advanced-analysis/detailed-comparison/{question_id}` — Comparación detallada
-
----
-
-## 🎯 Casos de Uso
-
-### 📊 Análisis Comparativo de IA
-- Comparar respuestas de múltiples modelos de IA
-- Identificar fortalezas y debilidades de cada modelo
-- Detectar sesgos y enfoques diferentes
-
-### 🔍 Evaluación de Calidad
-- Medir la legibilidad y concisión de las respuestas
-- Evaluar la estructura y organización del contenido
-- Analizar el uso de vocabulario y términos técnicos
-
-### 🎯 Detección de Consenso y Divergencia
-- Identificar puntos de acuerdo entre diferentes IA
-- Detectar contradicciones y enfoques únicos
-- Generar recomendaciones basadas en el análisis
-
-### 📈 Investigación y Desarrollo
-- Evaluar el rendimiento de diferentes modelos de IA
-- Identificar áreas de mejora para cada modelo
-- Generar insights para el desarrollo de IA
+### 🚀 Advanced Analysis Endpoints
+- `POST /advanced-analysis/analyze-responses` — Complete response analysis
+- `POST /advanced-analysis/compare-intelligently` — Intelligent comparison
+- `POST /advanced-analysis/quality-assessment` — Quality evaluation
+- `POST /advanced-analysis/consensus-analysis` — Consensus analysis
+- `POST /advanced-analysis/divergence-analysis` — Divergence analysis
+- `GET /advanced-analysis/recommendations/{question_id}` — Recommendations
+- `GET /advanced-analysis/detailed-comparison/{question_id}` — Detailed comparison
 
 ---
 
-## 🔧 Configuración Avanzada
+## 🎯 Use Cases
 
-### Personalización de Modelos
-Puedes configurar qué modelos de IA usar editando `backend/services/IAManager.py`:
+### 📊 AI Comparative Analysis
+- Compare responses from multiple AI models
+- Identify strengths and weaknesses of each model
+- Detect biases and different approaches
+
+### 🔍 Quality Assessment
+- Measure readability and conciseness of responses
+- Evaluate structure and content organization
+- Analyze vocabulary usage and technical terms
+
+### 🎯 Consensus and Divergence Detection
+- Identify agreement points between different AIs
+- Detect contradictions and unique approaches
+- Generate recommendations based on analysis
+
+### 📈 Research and Development
+- Evaluate performance of different AI models
+- Identify improvement areas for each model
+- Generate insights for AI development
+
+---
+
+## 🔧 Advanced Configuration
+
+### Model Customization
+You can configure which AI models to use by editing `backend/services/IAManager.py`:
 
 ```python
 self.ias = {
     "ChatGPT": IAFactory.create_ia("ChatGPT", os.getenv("OPENAI_API_KEY")),
     "Claude": IAFactory.create_ia("Claude", os.getenv("ANTHROPIC_API_KEY")),
-    # Agregar o quitar modelos según necesites
+    # Add or remove models as needed
 }
 ```
 
-### Métricas de Calidad Personalizadas
-Modifica los pesos de las métricas en `backend/services/AdvancedResponseAnalyzer.py`:
+### Custom Quality Metrics
+Modify metric weights in `backend/services/AdvancedResponseAnalyzer.py`:
 
 ```python
 def _calculate_quality_score(self, metrics: Dict) -> float:
-    # Personalizar los pesos según tus necesidades
+    # Customize weights according to your needs
     score = 0.0
     
     # Readability (25%)
@@ -192,30 +192,30 @@ def _calculate_quality_score(self, metrics: Dict) -> float:
     if metrics.get("conciseness", {}).get("content_word_ratio", 0) > 0.6:
         score += 0.20
     
-    # ... más métricas
+    # ... more metrics
 ```
 
 ---
 
-## 🤝 Contribución
+## 🤝 Contributing
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 🆘 Soporte
+## 📄 License
 
-Si tienes problemas o preguntas:
-- Abre un issue en GitHub
-- Revisa la documentación de la API en `/docs`
-- Consulta los logs de Docker para debugging
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## 🆘 Support
+
+If you have problems or questions:
+- Open an issue on GitHub
+- Check the API documentation at `/docs`
+- Consult Docker logs for debugging
