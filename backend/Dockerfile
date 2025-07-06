@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y gcc && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 
 # Instala torch primero para evitar conflictos de dependencias
-RUN pip install --no-cache-dir torch
+#RUN pip install --no-cache-dir torch
 
 # Instala el resto de dependencias
 RUN pip install --no-cache-dir -r requirements.txt
