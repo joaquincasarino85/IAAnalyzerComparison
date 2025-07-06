@@ -1,17 +1,34 @@
-# Git
+# Excluye todo lo que no sea backend y requirements
+react-frontend/
+frontend-legacy/
+node_modules/
 .git
 .gitignore
-
-# Docker
 Dockerfile
 .dockerignore
 docker-compose.yml
-
-# Python
-__pycache__
+*.md
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
+.DS_Store
+.env
+.vscode/
+.idea/
+dist/
+build/
+logs/
+tmp/
+*.log
+# Excluye modelos grandes, datasets, o archivos temporales si existen
+data/
+models/
+*.pt
+*.bin
+*.h5
+
+# Python
 .Python
 env
 pip-log.txt
@@ -24,7 +41,6 @@ nosetests.xml
 coverage.xml
 *.cover
 *.log
-.git
 .mypy_cache
 .pytest_cache
 .hypothesis
@@ -46,7 +62,6 @@ venv.bak/
 *~
 
 # OS
-.DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
@@ -55,33 +70,23 @@ ehthumbs.db
 Thumbs.db
 
 # Node modules (if any)
-node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # Build outputs
-dist/
-build/
 *.egg-info/
 
 # Logs
-logs/
 *.log
 
 # Temporary files
-tmp/
 temp/
 
 # Node.js
-node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# React
-react-frontend/dist
-react-frontend/build
 
 # Environment files
 .env.local
