@@ -7,7 +7,7 @@ python-dotenv
 openai
 google-generativeai
 sentence-transformers
-transformers
+#transformers
 langdetect
 anthropic
 cohere
