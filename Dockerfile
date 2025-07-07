@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia main.py y el backend
 COPY main.py .
-COPY backend/ .
+COPY backend/ backend/
 
 # Crea usuario no root
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
@@ -26,4 +26,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+CMD sh -c "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"
