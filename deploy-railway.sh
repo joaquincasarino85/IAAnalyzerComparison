@@ -107,8 +107,8 @@ setup_database() {
     # Get database URL
     DB_URL=$(railway variables get DATABASE_URL --service postgres)
     
-    # Set database URL for backend
-    railway variables set DATABASE_URL="postgresql://admin:admin123@localhost:5432/ianalyzer" --service backend
+    # Set database URL for backend 
+    railway variables set DATABASE_URL="postgresql://admin:admin123@ia_db:5432/ianalyzer" --service backend
     
     print_success "Database setup completed!"
 }
