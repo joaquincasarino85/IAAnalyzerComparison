@@ -15,6 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia main.py y el backend
 COPY main.py .
 COPY backend/ backend/
+COPY IATools/ IATools/
 
 # Crea usuario no root
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
