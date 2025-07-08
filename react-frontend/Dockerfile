@@ -15,9 +15,12 @@ ENV PATH /app/node_modules/.bin:$PATH
 # Copiar el resto del código
 COPY . .
 
-# Exponer el puerto usado por Vite
-EXPOSE 5173
+# Construir la aplicación para producción
+RUN npm run build
 
-# Comando para correr Vite en modo desarrollo
-CMD ["npm", "run", "dev"]
+# Exponer el puerto (Railway asignará el puerto dinámicamente)
+EXPOSE 3000
+
+# Comando para servir la aplicación construida
+CMD ["sh", "-c", "npm run preview -- --host 0.0.0.0 --port $PORT"]
 
