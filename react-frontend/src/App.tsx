@@ -8,6 +8,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import { QuestionWithData } from "./types";
 import { useProgressSimulation } from "./hooks/useProgressSimulation";
 import axios from "axios";
+import { API_URL } from "./services/api";
 
 const App = () => {
   const [questions, setQuestions] = useState<QuestionWithData[]>([]);
@@ -31,7 +32,7 @@ const App = () => {
 
   const fetchQuestions = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/questions/");
+      const res = await axios.get(`${API_URL}/questions/`);
       const sorted = res.data.sort((a: any, b: any) => b.id - a.id);
       setQuestions(sorted);
     } catch (err) {
@@ -48,9 +49,9 @@ const App = () => {
       setLoading(true);
       startProgress(); // Start progress simulation
       
-      const res = await axios.post("http://127.0.0.1:8000/questions/", { text });
+      const res = await axios.post(`${API_URL}/questions/`, { text });
       await fetchQuestions();
-      const full = await axios.get(`http://127.0.0.1:8000/questions/${res.data.question_id}`);
+      const full = await axios.get(`${API_URL}/questions/${res.data.question_id}`);
       setSelectedQuestion(full.data);
       
       stopProgress(); // Stop progress simulation
@@ -64,7 +65,7 @@ const App = () => {
 
   const handleSelectQuestion = async (id: number) => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/questions/${id}`);
+      const res = await axios.get(`${API_URL}/questions/${id}`);
       setSelectedQuestion(res.data);
     } catch (error) {
       console.error("Error loading question:", error);
