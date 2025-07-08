@@ -22,5 +22,5 @@ RUN npm run build
 EXPOSE 3000
 
 # Comando para servir la aplicación construida
-CMD ["sh", "-c", "npm run preview -- --host 0.0.0.0 --port $PORT"]
+CMD ["sh", "-c", "vite preview --host 0.0.0.0 --port $PORT"]
 
