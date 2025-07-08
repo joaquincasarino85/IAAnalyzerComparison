@@ -1,26 +1,18 @@
-FROM node:20-alpine
-
-# Crear y usar directorio de trabajo
+# Build stage
+FROM node:18 AS build
 WORKDIR /app
-
-# Copiar archivos de dependencias
 COPY package*.json ./
-
-# Instalar todas las dependencias, incluyendo Vite
-RUN npm install
-
-# Asegurar que los binarios locales (como vite) estén en el PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# Copiar el resto del código
 COPY . .
-
-# Construir la aplicación para producción
+RUN npm install
 RUN npm run build
 
-# Exponer el puerto (Railway asignará el puerto dinámicamente)
-EXPOSE 3000
-
-# Comando para servir la aplicación construida
-CMD ["sh", "-c", "vite preview --host 0.0.0.0 --port $PORT"]
+# Production stage
+FROM node:18-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=build /app/dist ./dist
+COPY start.sh .
+RUN chmod +x start.sh
+EXPOSE 8080
+CMD ["./start.sh"]
 
