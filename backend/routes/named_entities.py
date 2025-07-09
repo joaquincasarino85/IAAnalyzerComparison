@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from backend.database import SessionLocal
-from backend.models.named_entity import NamedEntity
-from backend.schemas.named_entity import NamedEntityCreate
+from database import SessionLocal
+from models.named_entity import NamedEntity
+from schemas.named_entity import NamedEntityCreate
 
 router = APIRouter()
 

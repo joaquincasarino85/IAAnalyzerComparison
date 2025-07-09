@@ -1,7 +1,7 @@
 # models/named_entity.py
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from backend.database import Base
+from database import Base
 
 class NamedEntity(Base):
     __tablename__ = "named_entities"

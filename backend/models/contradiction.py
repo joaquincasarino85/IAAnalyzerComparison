@@ -1,7 +1,7 @@
 # models/contradiction.py
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from backend.database import Base
+from database import Base
 
 class Contradiction(Base):
     __tablename__ = "contradictions"

@@ -1,7 +1,7 @@
 # models/sentiment.py
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from backend.database import Base
+from database import Base
 
 class Sentiment(Base):
     __tablename__ = "sentiments"

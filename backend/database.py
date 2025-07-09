@@ -69,7 +69,7 @@ def create_database():
         exit(1)
 
 def init_models():
-    from backend.models import question, response, similarity, summary  # Importá todos los modelos que definen tablas
+    from models import question, response, similarity, summary  # Importá todos los modelos que definen tablas
     Base.metadata.create_all(bind=engine)
 
 

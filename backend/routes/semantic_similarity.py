@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from backend.database import SessionLocal
-from backend.models.semantic_similarity import SemanticSimilarity
-from backend.schemas.semantic_similarity import SemanticSimilarityCreate
+from database import SessionLocal
+from models.semantic_similarity import SemanticSimilarity
+from schemas.semantic_similarity import SemanticSimilarityCreate
 
 router = APIRouter()
 

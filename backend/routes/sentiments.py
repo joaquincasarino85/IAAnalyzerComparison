@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from backend.database import SessionLocal
-from backend.models.sentiment import Sentiment
-from backend.schemas.sentiment import SentimentCreate
+from database import SessionLocal
+from models.sentiment import Sentiment
+from schemas.sentiment import SentimentCreate
 
 router = APIRouter()
 

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from backend.database import SessionLocal
-from backend.models.contradiction import Contradiction
-from backend.schemas.contradiction import ContradictionCreate
+from database import SessionLocal
+from models.contradiction import Contradiction
+from schemas.contradiction import ContradictionCreate
 
 router = APIRouter()
 

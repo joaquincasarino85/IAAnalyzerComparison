@@ -1,20 +1,20 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.services.IAManager import IAManager
-from backend.services.SimilarityAnalyzer import SimilarityAnalyzer
-from backend.services.SummaryAnalyzer import SummaryAnalyzer
-from backend.models.question import Question as QuestionModel
-from backend.models.response import Response as Answer
-from backend.models.summary import Summary as Summary
-from backend.models.similarity import Similarity as Similarity
-from backend.models.semantic_similarity import SemanticSimilarity as SemanticSimilarity
-from backend.models.contradiction import Contradiction as Contradiction
-from backend.models.named_entity import NamedEntity as NamedEntity
-from backend.models.sentiment import Sentiment as Sentiment
-from backend.database import get_db
-from backend.schemas.question import QuestionRequest
-from backend.services.NLPAnalyzer import NLPAnalyzer
-from backend.utils.lang import detect_language
+from services.IAManager import IAManager
+from services.SimilarityAnalyzer import SimilarityAnalyzer
+from services.SummaryAnalyzer import SummaryAnalyzer
+from models.question import Question as QuestionModel
+from models.response import Response as Answer
+from models.summary import Summary as Summary
+from models.similarity import Similarity as Similarity
+from models.semantic_similarity import SemanticSimilarity as SemanticSimilarity
+from models.contradiction import Contradiction as Contradiction
+from models.named_entity import NamedEntity as NamedEntity
+from models.sentiment import Sentiment as Sentiment
+from database import get_db
+from schemas.question import QuestionRequest
+from services.NLPAnalyzer import NLPAnalyzer
+from utils.lang import detect_language
 
 import numpy as np
 import sys
