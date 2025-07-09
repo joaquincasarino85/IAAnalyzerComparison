@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+echo "FRONTEND_ENV: $FRONTEND_ENV"
+echo "PORT: $PORT"
+
+echo "DEBUG: script actualizado"
+
 if [ "$FRONTEND_ENV" = "prod" ]; then
   echo "Iniciando frontend en modo PRODUCCIÓN"
   npm run build
