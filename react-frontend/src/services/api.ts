@@ -12,7 +12,7 @@ declare global {
 }
 
 export const getQuestions = async (): Promise<Question[]> => {
-  const res = await fetch(`${API_URL}/questions`);
+  const res = await fetch(`${API_URL}/questions/`);
   return res.json();
 };
 
