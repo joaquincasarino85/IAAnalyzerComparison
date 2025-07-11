@@ -28,7 +28,7 @@ IAAnalyzerComparator is an advanced web application that allows users to ask que
 - **❤️ Sentiment Analysis**: Emotional evaluation of responses
 - **📝 Summary Generation**: Automatic response synthesis (summary is generated in the same language as the question; language detection is automatic)
 
-### 📊 Detailed Quality Metrics
+### 📊 Detailed Quality Metrics 
 - **📖 Readability**: Flesch score, sentence and word length
 - **🎯 Conciseness**: Content word ratio, redundancy
 - **🏗️ Structure**: Bullet points, logical connectors, paragraphs
