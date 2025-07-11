@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
-import LoadingSpinner from './LoadingSpinner';
+import DetailedProgressIndicator from './DetailedProgressIndicator';
+import { ProcessingStep } from '../types';
 
 interface QuestionInputProps {
   onQuestionAsked: (question: string) => void;
   loading: boolean;
+  processingSteps?: ProcessingStep[];
+  currentMessage?: string;
+  progress?: number;
 }
 
-const QuestionInput: React.FC<QuestionInputProps> = ({ onQuestionAsked, loading }) => {
+const QuestionInput: React.FC<QuestionInputProps> = ({ 
+  onQuestionAsked, 
+  loading, 
+  processingSteps = [], 
+  currentMessage = "Processing your question...", 
+  progress = 0 
+}) => {
   const [question, setQuestion] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -18,41 +28,35 @@ const QuestionInput: React.FC<QuestionInputProps> = ({ onQuestionAsked, loading 
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-xl font-semibold mb-4">Ask a Question</h2>
-      
+    <div className="bg-white rounded-xl shadow-lg p-8 mb-4 w-full">
+      <h2 className="text-2xl font-bold mb-2 text-gray-900">Ask a Question</h2>
+      <p className="text-gray-500 mb-4">Type your question below to compare answers from multiple AI models.</p>
       {loading ? (
-        <LoadingSpinner 
-          message="Processing your question with multiple AI models..."
-          size="large"
-          showProgress={true}
-          progress={75}
-        />
+        <div className="space-y-6">
+          <DetailedProgressIndicator 
+            processingSteps={processingSteps}
+            currentMessage={currentMessage}
+            progress={progress}
+          />
+        </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="question" className="block text-sm font-medium text-gray-700 mb-2">
-              Enter your question:
-            </label>
             <textarea
               id="question"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Ask anything you want to compare across different AI models..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-              rows={4}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-base"
+              rows={3}
               disabled={loading}
             />
           </div>
-          
-          <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-500">
-              Your question will be sent to ChatGPT, Gemini, Mistral, Cohere, and Perplexity for comparison
-            </div>
+          <div className="flex justify-end">
             <button
               type="submit"
               disabled={!question.trim() || loading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-8 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-semibold text-base"
             >
               {loading ? 'Processing...' : 'Ask Question'}
             </button>

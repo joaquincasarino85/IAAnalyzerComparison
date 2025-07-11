@@ -62,3 +62,19 @@ export interface QuestionWithData {
     text: string;
   }>;
 }
+
+export interface AIProgress {
+  currentStep: number;
+  totalSteps: number;
+  currentAI: string;
+  status: 'pending' | 'processing' | 'completed' | 'error';
+  message: string;
+  progress: number;
+}
+
+export interface ProcessingStep {
+  step: number;
+  name: string;
+  status: 'pending' | 'processing' | 'completed' | 'error';
+  message: string;
+}

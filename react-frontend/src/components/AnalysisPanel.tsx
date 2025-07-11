@@ -22,23 +22,23 @@ const AnalysisPanel = ({ question }: Props) => {
   } = question;
 
   return (
-    <div className="w-full md:w-2/3 space-y-4">
-      <h2 className="text-xl font-bold">Analysis Summary</h2>
+    <div className="w-full space-y-4">
+      <h2 className="text-xl font-bold mb-4">Summary & Analysis</h2>
 
-      {/* Question Text */}
-      <div className="p-4 border rounded bg-white">
-        <h3 className="font-semibold">Question</h3>
-        <p>{text}</p>
+      {/* Question */}
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-1">Question</h3>
+        <p className="text-base text-gray-800">{text}</p>
       </div>
 
       {/* Responses */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Responses</h3>
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-2">AI Responses</h3>
         <ul className="space-y-2">
           {responses && responses.length > 0 ? (
             responses.map((r: any, index: number) => (
-              <li key={index} className="p-2 bg-white rounded shadow">
-                <strong>{r.iaName}:</strong> {r.text}
+              <li key={index} className="p-2 bg-gray-50 rounded">
+                <strong>{r.iaName}:</strong> <span className="text-gray-800">{r.text}</span>
               </li>
             ))
           ) : (
@@ -48,14 +48,16 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Summary */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Summary</h3>
-        <p>{summary || <span className="text-gray-400 italic">No summary available.</span>}</p>
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-2">Summary</h3>
+        <p className="text-base text-gray-900 font-medium">
+          {summary || <span className="text-gray-400 italic">No summary available.</span>}
+        </p>
       </div>
 
       {/* Similarity */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Similarity</h3>
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-2">Similarity</h3>
         {Array.isArray(similarity) && similarity.length > 0 ? (
           <ul className="list-disc ml-5">
             {similarity.map((item: any, idx: number) => (
@@ -70,8 +72,8 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Semantic Similarity */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Semantic Similarity</h3>
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-2">Semantic Similarity</h3>
         {Array.isArray(semantic_similarity) && semantic_similarity.length > 0 ? (
           <ul className="list-disc ml-5">
             {semantic_similarity.map((item: any, idx: number) => (
@@ -86,8 +88,8 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Contradictions */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Contradictions</h3>
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-2">Contradictions</h3>
         <ul className="list-disc ml-5">
           {Array.isArray(contradictions) && contradictions.length > 0 ? (
             contradictions.map((c: any, index: number) => (
@@ -102,8 +104,8 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Sentiments */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Sentiments</h3>
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-2">Sentiments</h3>
         <ul>
           {sentiments && Object.keys(sentiments).length > 0 ? (
             Object.entries(sentiments).map(([ia, sentimentList]) => (
@@ -119,8 +121,8 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Named Entities */}
-      <div className="p-4 border rounded bg-gray-50">
-        <h3 className="font-semibold">Named Entities</h3>
+      <div className="p-4 border rounded bg-white mb-2">
+        <h3 className="font-semibold mb-2">Named Entities</h3>
         <ul>
           {named_entities && Object.keys(named_entities).length > 0 ? (
             Object.entries(named_entities).map(([ia, entities]) => (

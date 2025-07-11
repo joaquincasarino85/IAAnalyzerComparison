@@ -5,8 +5,13 @@ class SummaryAnalyzer:
     def __init__(self):
         self.api_key = os.getenv("SUMMARY_API_KEY")  # Obtiene la API Key desde .env
 
-    def generate_summary(self, observations):
-        prompt = "Resuma las siguientes observaciones de manera concisa:\n\n" + "\n".join(observations)
+    def generate_summary(self, observations, lang="en"):
+        if lang == "es":
+            prompt = "Resuma las siguientes observaciones de manera concisa:\n\n" + "\n".join(observations)
+        elif lang == "en":
+            prompt = "Summarize the following observations concisely:\n\n" + "\n".join(observations)
+        else:
+            prompt = "Summarize the following observations concisely:\n\n" + "\n".join(observations)
 
         client = openai.OpenAI(api_key=self.api_key)  # Usa el nuevo cliente de OpenAI
 

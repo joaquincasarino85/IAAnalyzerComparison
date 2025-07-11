@@ -124,7 +124,7 @@ async def ask_question(question_request: QuestionRequest, db: Session = Depends(
 
     # 6️⃣  Generar y guardar el resumen en la base de datos
     summary_analyzer = SummaryAnalyzer()
-    summary_text = summary_analyzer.generate_summary(list(responses.values()))
+    summary_text = summary_analyzer.generate_summary(list(responses.values()), lang)
 
     new_summary = Summary(question_id=new_question.id, summary_text=summary_text)  # ⬅ Creando el objeto
     db.add(new_summary)  # ⬅ Agregando a la base de datos
@@ -199,6 +199,68 @@ async def get_questions(db: Session = Depends(get_db)):
         })
     
     return questions_with_answers
+
+@router.post("/seed")
+async def seed_test_data(db: Session = Depends(get_db)):
+    """Crea datos de prueba para testing"""
+    try:
+        # Verificar si ya hay datos
+        existing_questions = db.query(QuestionModel).count()
+        if existing_questions > 0:
+            return {"message": f"Ya existen {existing_questions} preguntas en la base de datos"}
+        
+        # Datos de prueba
+        test_questions = [
+            {
+                "text": "¿Cuál es la capital de Francia?",
+                "language": "es",
+                "responses": {
+                    "ChatGPT": "La capital de Francia es París, una ciudad conocida por su rica historia, cultura y monumentos icónicos como la Torre Eiffel.",
+                    "Gemini": "París es la capital de Francia. Es una ciudad importante en Europa conocida por su arte, moda y gastronomía.",
+                    "Mistral": "La capital de Francia es París. Es una ciudad histórica y cultural muy importante en Europa."
+                }
+            },
+            {
+                "text": "¿Qué es la inteligencia artificial?",
+                "language": "es", 
+                "responses": {
+                    "ChatGPT": "La inteligencia artificial es un campo de la informática que busca crear sistemas capaces de realizar tareas que normalmente requieren inteligencia humana.",
+                    "Gemini": "La IA es tecnología que permite a las computadoras aprender y tomar decisiones como los humanos.",
+                    "Mistral": "La inteligencia artificial es la simulación de procesos de inteligencia humana en máquinas."
+                }
+            }
+        ]
+        
+        created_questions = []
+        
+        for test_data in test_questions:
+            # Crear pregunta
+            question = QuestionModel(text=test_data["text"], language=test_data["language"])
+            db.add(question)
+            db.commit()
+            db.refresh(question)
+            
+            # Crear respuestas
+            for ai_name, response_text in test_data["responses"].items():
+                answer = Answer(question_id=question.id, ai_name=ai_name, response_text=response_text)
+                db.add(answer)
+            
+            created_questions.append({
+                "id": question.id,
+                "text": question.text,
+                "responses_count": len(test_data["responses"])
+            })
+        
+        db.commit()
+        
+        return {
+            "message": f"Se crearon {len(created_questions)} preguntas de prueba",
+            "questions": created_questions
+        }
+        
+    except Exception as e:
+        db.rollback()
+        return {"error": f"Error creando datos de prueba: {str(e)}"}
 
 @router.delete("/{question_id}")
 def delete_question(question_id: int, db: Session = Depends(get_db)):

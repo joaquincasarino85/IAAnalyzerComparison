@@ -14,3 +14,5 @@ cohere
 requests
 nltk
 numpy
+aiohttp
+pydantic

@@ -16,16 +16,15 @@ const QuestionList: React.FC<QuestionListProps> = ({
   loadingId 
 }) => {
   return (
-    <div className="w-full md:w-1/3 bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-xl font-semibold mb-4">Question History</h2>
-      
+    <div className="w-full bg-white rounded-lg shadow-md p-4">
+      {/* <h2 className="text-xl font-semibold mb-4">Question History</h2> */}
       <div className="space-y-2 max-h-96 overflow-y-auto">
         {questions.length === 0 ? (
           <div className="text-gray-500 text-center py-8">
             No questions yet. Ask your first question!
           </div>
         ) : (
-          questions.map((question) => {
+          [...questions].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map((question) => {
             const isSelected = question.id === selectedId;
             const isLoading = question.id === loadingId;
             
@@ -50,7 +49,6 @@ const QuestionList: React.FC<QuestionListProps> = ({
                     <p className="text-xs text-gray-500 mt-1">
                       {new Date(question.created_at).toLocaleDateString()}
                     </p>
-                    
                     {/* Loading indicator */}
                     {isLoading && (
                       <div className="flex items-center space-x-2 mt-2">
@@ -58,7 +56,6 @@ const QuestionList: React.FC<QuestionListProps> = ({
                         <span className="text-xs text-blue-600">Processing...</span>
                       </div>
                     )}
-                    
                     {/* Response count */}
                     {!isLoading && question.responses && (
                       <div className="flex items-center space-x-1 mt-2">
@@ -79,7 +76,6 @@ const QuestionList: React.FC<QuestionListProps> = ({
                       </div>
                     )}
                   </div>
-                  
                   {/* Status indicator */}
                   {isSelected && !isLoading && (
                     <div className="ml-2">
@@ -92,7 +88,6 @@ const QuestionList: React.FC<QuestionListProps> = ({
           })
         )}
       </div>
-      
       {/* Summary */}
       {questions.length > 0 && (
         <div className="mt-4 pt-4 border-t border-gray-200">

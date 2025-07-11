@@ -1,6 +1,8 @@
 from IATools.IAFactory import IAFactory
 from dotenv import load_dotenv
 import os
+import asyncio
+import aiohttp
 load_dotenv()
 
 
@@ -67,3 +69,49 @@ class IAManager:
 
     def get_responses(self):
         return self.responses
+
+    async def query_single_ai(self, question: str, ai_name: str, lang: str = "en"):
+        """
+        Consulta una IA específica de forma asíncrona
+        """
+        if ai_name not in self.ias:
+            raise ValueError(f"IA {ai_name} no está disponible")
+        
+        full_prompt = self._build_prompt(question, lang, ai_name)
+        response = self.ias[ai_name].get_response(full_prompt, lang)
+        return response
+
+    async def query_all_ias_parallel(self, question: str, lang: str = "en"):
+        """
+        Consulta todas las IAs en paralelo de forma asíncrona
+        """
+        tasks = []
+        for name, ia in self.ias.items():
+            task = self._query_ai_async(question, lang, name, ia)
+            tasks.append(task)
+        
+        # Ejecutar todas las tareas en paralelo
+        responses = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        # Procesar resultados
+        result = {}
+        for i, (name, _) in enumerate(self.ias.items()):
+            if isinstance(responses[i], Exception):
+                result[name] = f"Error: {str(responses[i])}"
+            else:
+                result[name] = responses[i]
+        
+        return result
+
+    async def _query_ai_async(self, question: str, lang: str, ai_name: str, ia):
+        """
+        Método auxiliar para consultar una IA de forma asíncrona
+        """
+        try:
+            full_prompt = self._build_prompt(question, lang, ai_name)
+            # Como las IAs actuales no son async, las ejecutamos en un thread pool
+            loop = asyncio.get_event_loop()
+            response = await loop.run_in_executor(None, ia.get_response, full_prompt, lang)
+            return response
+        except Exception as e:
+            return f"Error: {str(e)}"

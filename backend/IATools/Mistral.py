@@ -32,6 +32,8 @@ class Mistral(IA):
             
             if response.status_code == 200:
                 return response.json()["choices"][0]["message"]["content"]
+            elif response.status_code == 429:
+                return "Error: 429 (Too Many Requests - Rate limit exceeded. Please wait and try again later.)"
             else:
                 return f"Error: {response.status_code}"
                 

@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { getQuestions, getQuestionDetail } from "../services/api";
-import { Question, Response, Analysis } from "../types";
-import { QuestionList } from "../components/QuestionList";
+import { Question, QuestionWithData } from "../types";
+import QuestionList from "../components/QuestionList";
 import { QuestionDetail } from "../components/QuestionDetail";
+import QuestionInput from "../components/QuestionInput";
+import { useParallelProcessing } from "../hooks/useParallelProcessing";
+import AnalysisGraphs from "../components/AnalysisGraphs";
 
 const Home: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionWithData[]>([]);
   const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(null);
-  const [responses, setResponses] = useState<Response[]>([]);
-  const [analysis, setAnalysis] = useState<Analysis | null>(null);
+  const [selectedQuestion, setSelectedQuestion] = useState<QuestionWithData | null>(null);
+  const [activeTab, setActiveTab] = useState<'analysis' | 'graphs'>('analysis');
+
+  const { 
+    progress, 
+    processingSteps, 
+    processQuestion, 
+    resetProgress 
+  } = useParallelProcessing();
 
   useEffect(() => {
     getQuestions().then(setQuestions);
@@ -16,21 +26,109 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (selectedQuestionId !== null) {
-      getQuestionDetail(selectedQuestionId).then(({ responses, analysis }) => {
-        setResponses(responses);
-        setAnalysis(analysis);
+      getQuestionDetail(selectedQuestionId).then((data) => {
+        setSelectedQuestion(data);
       });
     }
   }, [selectedQuestionId]);
 
-  const selectedQuestion = questions.find((q) => q.id === selectedQuestionId);
+  const handleQuestionAsked = async (question: string) => {
+    try {
+      resetProgress();
+      const result = await processQuestion(question);
+      await getQuestions().then(setQuestions);
+      setSelectedQuestionId(result.questionId);
+      setSelectedQuestion({
+        id: result.questionId,
+        text: question,
+        summary: result.summary,
+        similarity: result.analysis.similarities,
+        semantic_similarity: result.analysis.semantic_similarities,
+        contradictions: result.analysis.contradictions,
+        named_entities: result.analysis.named_entities,
+        sentiments: result.analysis.sentiments,
+        responses: Object.entries(result.responses).map(([iaName, text]) => ({ iaName, text }))
+      });
+    } catch (error) {
+      console.error('Error processing question:', error);
+    }
+  };
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      <QuestionList questions={questions} onSelect={setSelectedQuestionId} />
-      {selectedQuestion && analysis && (
-        <QuestionDetail question={selectedQuestion} responses={responses} analysis={analysis} />
-      )}
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="w-full px-12">
+          <div className="flex justify-between items-center py-6">
+            <h1 className="text-4xl font-extrabold text-gray-900">IA Analyzer Comparison</h1>
+          </div>
+        </div>
+      </div>
+      {/* Main layout - vertical stack, full width */}
+      <div className="flex-1 flex flex-col w-full items-center">
+        {/* Ask a Question - full width */}
+        <div className="w-full px-12 mt-8">
+          <div className="bg-white rounded-xl shadow-lg p-8 w-full">
+            <QuestionInput 
+              onQuestionAsked={handleQuestionAsked}
+              loading={progress.status === 'processing'}
+              processingSteps={processingSteps}
+              currentMessage={progress.message}
+              progress={progress.progress}
+            />
+          </div>
+        </div>
+        {/* Question History and Results - below, full width */}
+        <div className="w-full flex flex-row gap-8 px-12 mt-8">
+          {/* Question History */}
+          <aside className="w-[420px] min-h-[300px] bg-white shadow-md flex flex-col p-6 rounded-xl">
+            <h2 className="text-xl font-bold mb-6">Question History</h2>
+            <QuestionList questions={questions} onSelect={setSelectedQuestionId} />
+          </aside>
+          {/* Main Panel - Results */}
+          <main className="flex-1">
+            <div className="w-full">
+              {selectedQuestion ? (
+                <div className="bg-white border rounded-lg p-8 w-full">
+                  {/* Tabs */}
+                  <div className="flex border-b border-gray-200 mb-6">
+                    <button
+                      onClick={() => setActiveTab('analysis')}
+                      className={`px-4 py-2 font-medium text-sm ${
+                        activeTab === 'analysis'
+                          ? 'border-b-2 border-blue-500 text-blue-600'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      Text Analysis
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('graphs')}
+                      className={`px-4 py-2 font-medium text-sm ${
+                        activeTab === 'graphs'
+                          ? 'border-b-2 border-blue-500 text-blue-600'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      Graphs & Charts
+                    </button>
+                  </div>
+                  {/* Tab Content */}
+                  {activeTab === 'analysis' ? (
+                    <QuestionDetail question={selectedQuestion} />
+                  ) : (
+                    <AnalysisGraphs question={selectedQuestion} />
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-96 w-full">
+                  <span className="text-gray-400 italic text-lg">Select a question to view analysis.</span>
+                </div>
+              )}
+            </div>
+          </main>
+        </div>
+      </div>
     </div>
   );
 };

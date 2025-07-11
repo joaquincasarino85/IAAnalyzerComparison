@@ -26,7 +26,7 @@ IAAnalyzerComparator is an advanced web application that allows users to ask que
 - **⚔️ Contradiction Detection**: NLI to identify inconsistencies
 - **🧾 Named Entity Recognition**: Extraction of named entities
 - **❤️ Sentiment Analysis**: Emotional evaluation of responses
-- **📝 Summary Generation**: Automatic response synthesis
+- **📝 Summary Generation**: Automatic response synthesis (summary is generated in the same language as the question; language detection is automatic)
 
 ### 📊 Detailed Quality Metrics
 - **📖 Readability**: Flesch score, sentence and word length
