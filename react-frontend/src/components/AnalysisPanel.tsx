@@ -33,25 +33,25 @@ const AnalysisPanel = ({ question }: Props) => {
   } = question;
 
   return (
-    <div className="w-full space-y-4">
-      <h2 className="text-xl font-bold mb-4">Summary & Analysis</h2>
+    <div className="w-full space-y-4 text-sm sm:text-base">
+      <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4">Summary & Analysis</h2>
 
       {/* Question */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-1">Question</h3>
         <p className="text-base text-gray-800">{text}</p>
       </div>
 
       {/* Responses */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">AI Responses</h3>
-        <ul className="space-y-6">
+        <ul className="space-y-4 sm:space-y-6">
           {responses && responses.length > 0 ? (
             responses.map((r: any, index: number) => {
               const style = IA_STYLES[r.iaName] || IA_STYLES.default;
               return (
-                <li key={index} className="p-4 bg-gray-50 rounded shadow-sm">
-                  <div className="flex items-center mb-2">
+                <li key={index} className="p-2 sm:p-4 bg-gray-50 rounded shadow-sm">
+                  <div className="flex items-center mb-1 sm:mb-2">
                     <span className={`text-xl mr-2 ${style.color}`}>{style.icon}</span>
                     <span className="font-bold text-lg">{r.iaName}</span>
                   </div>
@@ -69,7 +69,7 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Summary */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">Summary</h3>
         <p className="text-base text-gray-900 font-medium">
           {summary || <span className="text-gray-400 italic">No summary available.</span>}
@@ -77,7 +77,7 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Similarity */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">Similarity</h3>
         {Array.isArray(similarity) && similarity.length > 0 ? (
           <ul className="list-disc ml-5">
@@ -93,7 +93,7 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Semantic Similarity */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">Semantic Similarity</h3>
         {Array.isArray(semantic_similarity) && semantic_similarity.length > 0 ? (
           <ul className="list-disc ml-5">
@@ -109,7 +109,7 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Contradictions */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">Contradictions</h3>
         <ul className="list-disc ml-5">
           {Array.isArray(contradictions) && contradictions.length > 0 ? (
@@ -125,7 +125,7 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Sentiments */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">Sentiments</h3>
         <ul>
           {sentiments && Object.keys(sentiments).length > 0 ? (
@@ -142,7 +142,7 @@ const AnalysisPanel = ({ question }: Props) => {
       </div>
 
       {/* Named Entities */}
-      <div className="p-4 border rounded bg-white mb-2">
+      <div className="p-2 sm:p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">Named Entities</h3>
         <ul>
           {named_entities && Object.keys(named_entities).length > 0 ? (

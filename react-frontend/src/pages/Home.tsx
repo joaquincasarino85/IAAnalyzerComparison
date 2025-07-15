@@ -58,17 +58,17 @@ const Home: React.FC = () => {
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="w-full px-12">
-          <div className="flex justify-between items-center py-6">
-            <h1 className="text-4xl font-extrabold text-gray-900">IA Analyzer Comparison</h1>
+        <div className="w-full px-4 sm:px-6 md:px-12">
+          <div className="flex justify-between items-center py-4 sm:py-6">
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900">IA Analyzer Comparison</h1>
           </div>
         </div>
       </div>
       {/* Main layout - vertical stack, full width */}
       <div className="flex-1 flex flex-col w-full items-center">
         {/* Ask a Question - full width */}
-        <div className="w-full px-12 mt-8">
-          <div className="bg-white rounded-xl shadow-lg p-8 w-full">
+        <div className="w-full px-2 sm:px-4 md:px-12 mt-4 sm:mt-8">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 w-full">
             <QuestionInput 
               onQuestionAsked={handleQuestionAsked}
               loading={progress.status === 'processing'}
@@ -79,22 +79,22 @@ const Home: React.FC = () => {
           </div>
         </div>
         {/* Question History and Results - below, full width */}
-        <div className="w-full flex flex-row gap-8 px-12 mt-8">
+        <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-8 px-2 sm:px-4 md:px-12 mt-4 sm:mt-8">
           {/* Question History */}
-          <aside className="w-[420px] min-h-[300px] bg-white shadow-md flex flex-col p-6 rounded-xl">
-            <h2 className="text-xl font-bold mb-6">Question History</h2>
+          <aside className="w-full lg:w-[420px] min-h-[200px] bg-white shadow-md flex flex-col p-4 sm:p-6 rounded-xl mb-4 lg:mb-0">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">Question History</h2>
             <QuestionList questions={questions} onSelect={setSelectedQuestionId} />
           </aside>
           {/* Main Panel - Results */}
           <main className="flex-1">
             <div className="w-full">
               {selectedQuestion ? (
-                <div className="bg-white border rounded-lg p-8 w-full">
+                <div className="bg-white border rounded-lg p-4 sm:p-8 w-full">
                   {/* Tabs */}
-                  <div className="flex border-b border-gray-200 mb-6">
+                  <div className="flex border-b border-gray-200 mb-4 sm:mb-6 flex-wrap">
                     <button
                       onClick={() => setActiveTab('analysis')}
-                      className={`px-4 py-2 font-medium text-sm ${
+                      className={`px-2 sm:px-4 py-2 font-medium text-sm ${
                         activeTab === 'analysis'
                           ? 'border-b-2 border-blue-500 text-blue-600'
                           : 'text-gray-500 hover:text-gray-700'
@@ -104,7 +104,7 @@ const Home: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setActiveTab('graphs')}
-                      className={`px-4 py-2 font-medium text-sm ${
+                      className={`px-2 sm:px-4 py-2 font-medium text-sm ${
                         activeTab === 'graphs'
                           ? 'border-b-2 border-blue-500 text-blue-600'
                           : 'text-gray-500 hover:text-gray-700'
@@ -121,8 +121,8 @@ const Home: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center h-96 w-full">
-                  <span className="text-gray-400 italic text-lg">Select a question to view analysis.</span>
+                <div className="flex flex-col items-center justify-center h-64 sm:h-96 w-full">
+                  <span className="text-gray-400 italic text-base sm:text-lg">Select a question to view analysis.</span>
                 </div>
               )}
             </div>

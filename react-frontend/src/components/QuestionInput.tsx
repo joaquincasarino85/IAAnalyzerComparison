@@ -28,7 +28,7 @@ const QuestionInput: React.FC<QuestionInputProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-8 mb-4 w-full">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 mb-4 w-full">
       <h2 className="text-2xl font-bold mb-2 text-gray-900">Ask a Question</h2>
       <p className="text-gray-500 mb-4">Type your question below to compare answers from multiple AI models.</p>
       {loading ? (
@@ -52,7 +52,7 @@ const QuestionInput: React.FC<QuestionInputProps> = ({
               disabled={loading}
             />
           </div>
-          <div className="flex justify-end">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-0">
             <button
               type="submit"
               disabled={!question.trim() || loading}

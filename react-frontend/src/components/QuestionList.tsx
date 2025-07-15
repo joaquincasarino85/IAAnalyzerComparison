@@ -16,9 +16,9 @@ const QuestionList: React.FC<QuestionListProps> = ({
   loadingId 
 }) => {
   return (
-    <div className="w-full bg-white rounded-lg shadow-md p-4">
+    <div className="w-full bg-white rounded-lg shadow-md p-2 sm:p-4">
       {/* <h2 className="text-xl font-semibold mb-4">Question History</h2> */}
-      <div className="space-y-2 max-h-96 overflow-y-auto">
+      <div className="space-y-2 max-h-64 sm:max-h-96 overflow-y-auto">
         {questions.length === 0 ? (
           <div className="text-gray-500 text-center py-8">
             No questions yet. Ask your first question!
