@@ -1,5 +1,16 @@
 // src/components/AnalysisPanel.tsx
 import React from "react";
+import { markdownToHtml } from "../markdownToHtml";
+
+// Diccionario de colores e íconos para cada IA
+const IA_STYLES: Record<string, { color: string; icon: string }> = {
+  ChatGPT: { color: 'text-green-600', icon: '🤖' },
+  Gemini: { color: 'text-blue-600', icon: '🔷' },
+  Mistral: { color: 'text-orange-500', icon: '🌬️' },
+  Cohere: { color: 'text-purple-600', icon: '🟣' },
+  Perplexity: { color: 'text-gray-600', icon: '❓' },
+  default: { color: 'text-gray-700', icon: '💡' },
+};
 
 interface Props {
   question: any | null;
@@ -34,13 +45,23 @@ const AnalysisPanel = ({ question }: Props) => {
       {/* Responses */}
       <div className="p-4 border rounded bg-white mb-2">
         <h3 className="font-semibold mb-2">AI Responses</h3>
-        <ul className="space-y-2">
+        <ul className="space-y-6">
           {responses && responses.length > 0 ? (
-            responses.map((r: any, index: number) => (
-              <li key={index} className="p-2 bg-gray-50 rounded">
-                <strong>{r.iaName}:</strong> <span className="text-gray-800">{r.text}</span>
-              </li>
-            ))
+            responses.map((r: any, index: number) => {
+              const style = IA_STYLES[r.iaName] || IA_STYLES.default;
+              return (
+                <li key={index} className="p-4 bg-gray-50 rounded shadow-sm">
+                  <div className="flex items-center mb-2">
+                    <span className={`text-xl mr-2 ${style.color}`}>{style.icon}</span>
+                    <span className="font-bold text-lg">{r.iaName}</span>
+                  </div>
+                  <div
+                    className="text-gray-800"
+                    dangerouslySetInnerHTML={{ __html: markdownToHtml(r.text) }}
+                  />
+                </li>
+              );
+            })
           ) : (
             <li className="text-gray-400 italic">No responses available.</li>
           )}
